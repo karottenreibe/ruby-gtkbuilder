@@ -1,0 +1,22 @@
+# Builder::Gtk
+
+A simple DSL for creating Gtk windows.
+
+## Example
+
+	require 'gtkbuilder'
+
+	Gtk.init
+	window = Builder::Gtk.new do |w|
+	  w.vbox(true, 0) do |v|
+		v.start(true, true, 1) do
+		  v.text_view do |t|
+            t.set_size_request(200, 200)
+          end
+		  v.entry
+		end
+	  end
+	end
+	window.show_all
+	Gtk.main
+
