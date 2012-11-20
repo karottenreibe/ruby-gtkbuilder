@@ -22,6 +22,10 @@ module Builder::Gtk
     # @param block A block that will be executed with the created widget
     #     or a proxy if one is available.
     def method_missing(name, *args, &block)
+      if @widget.respond_to?(name)
+        return @widget.__send__(name, *args, &block)
+      end
+
       widget = _get_widget(name, args, &block)
       proxy = _get_proxy(name, widget) || widget
       block.call(proxy) if block
