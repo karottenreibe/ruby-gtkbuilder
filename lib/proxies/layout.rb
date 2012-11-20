@@ -2,10 +2,25 @@ require 'gtk2'
 
 module Builder::Gtk
 
+  ## Base class for all widgets that can have children
   module LayoutProxy
 
+    ## The widget that is being proxied
     attr_accessor :widget
 
+    ## Handles constructing Gtk widgets
+    #
+    # Example:
+    #
+    #   proxy.entry --> Gtk::Entry.new
+    #   proxy.vbox(true, 10) --> Gtk::VBox.new(true, 10)
+    #   proxy.drawing_area --> Gtk::DrawingArea.new
+    #
+    # @param name The name of the widget in snake case
+    # @param args The arguments to pass to the constructor of
+    #     the Gtk widget
+    # @param block A block that will be executed with the created widget
+    #     or a proxy if one is available.
     def method_missing(name, *args, &block)
       widget = _get_widget(name, args, &block)
       proxy = _get_proxy(name, widget) || widget
