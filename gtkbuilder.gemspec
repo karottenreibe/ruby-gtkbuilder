@@ -6,7 +6,7 @@ require 'bundler/version'
 
 Gem::Specification.new do |s|
   s.name        = "gtkbuilder"
-  s.version     = "0.1"
+  s.version     = "0.2"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Fabian Streitel"]
   s.email       = ["github@rottenrei.be"]
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.files        = Dir.glob("lib/**/*") + %w(LICENSE README.md)
+  s.files        = Dir.glob("lib/**/*") + %w(LICENSE README.mkd)
   s.require_path = 'lib'
 end
 
