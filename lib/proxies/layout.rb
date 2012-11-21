@@ -26,8 +26,8 @@ module Builder::Gtk
         return @widget.__send__(name, *args, &block)
       end
 
-      widget = _get_widget(name, args, &block)
-      proxy = _get_proxy(name, widget) || widget
+      widget = _get_widget(name, args)
+      proxy = _get_proxy(name, widget)
       block.call(proxy) if block
       _pack_widget(widget)
       return self
@@ -35,13 +35,17 @@ module Builder::Gtk
 
     private
 
-    def _get_widget(name, args, &block)
+    ## Tries to create a Gtk widget with the given name.
+    # All arguments are forwarded to the widget.
+    def _get_widget(name, args)
         class_name = _find_gtk_class(name)
-        raise RuntimeError.new("no widget found for name #{name}") unless class_name
+        raise RuntimeError.new("no widget found for name `#{name}'") unless class_name
         klass = ::Gtk.const_get(class_name)
-        return klass.new(*args, &block)
+        return klass.new(*args)
     end
 
+    ## Tries to find a Gtk widget for the given name
+    # @return the found widget class or nil.
     def _find_gtk_class(name)
       name = name.to_s.gsub("_", "").downcase
       return ::Gtk.constants.find do |constant|
@@ -49,17 +53,22 @@ module Builder::Gtk
       end
     end
 
+    ## Creates a proxy for the given widget with the given name.
+    # If no proxy can be created, returns the widget itself.
     def _get_proxy(name, widget)
       case name.to_s
-      when "winodw" then return WindowvboxProxy.new(widget)
+      when "window" then return WindowvboxProxy.new(widget)
       when "vbox" then return BoxProxy.new(widget)
       when "hbox" then return BoxProxy.new(widget)
-      else return nil
+      else return widget
       end
     end
 
+    ## Must be reimplemented by subclasses to actually pack the
+    # given widget.
+    # Raises an exception by default.
     def _pack_widget(widget)
-      raise RuntimeError.new("cannot pack inside this widget")
+      raise RuntimeError.new("cannot pack inside this widget. This is a bug in the gtkbuilder implementation")
     end
 
   end
