@@ -6,17 +6,17 @@ require 'bundler/version'
 
 Gem::Specification.new do |s|
   s.name        = "gtkbuilder"
-  s.version     = "0.2"
+  s.version     = "0.3"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Fabian Streitel"]
   s.email       = ["github@rottenrei.be"]
   s.homepage    = "http://github.com/karottenreibe/ruby-gtkbuilder"
-  s.summary     = "Easy way to generate simple Gtk GUIs"
+  s.summary     = "Easy way to :reate simple Gtk GUIs"
   s.description = "Builder::Gtk let's you build Gtk windows using a simple DSL"
 
-  s.required_rubygems_version = ">= 1.3.6"
+  s.add_dependency("gtk2")
 
-  s.files        = Dir.glob("lib/**/*") + %w(LICENSE README.mkd)
+  s.files         = `git ls-files`.split("\n")
   s.require_path = 'lib'
 end
 
